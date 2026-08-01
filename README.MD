@@ -20,7 +20,28 @@ A REST API built with FastAPI to manage personal expenses. The project stores da
 - Pydantic
 - Pytest
 
+
 ## Install Dependencies
+
+### Option 1: Using a virtual environment (Recommended)
+
+#### Windows
+
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+#### macOS / Linux
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+### Option 2: Without a virtual environment
 
 ```bash
 pip install -r requirements.txt
