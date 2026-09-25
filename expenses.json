@@ -47,5 +47,33 @@
         "amount": 1200.0,
         "category": "Health",
         "date": "2026-05-04"
+    },
+    {
+        "id": 8,
+        "title": "Lunch",
+        "amount": 1500.0,
+        "category": "Food",
+        "date": "2026-09-03"
+    },
+    {
+        "id": 9,
+        "title": "Lunch",
+        "amount": 1500.0,
+        "category": "Food",
+        "date": "2026-09-03"
+    },
+    {
+        "id": 10,
+        "title": "Lunch",
+        "amount": 1500.0,
+        "category": "Food",
+        "date": "2026-09-03"
+    },
+    {
+        "id": 11,
+        "title": "Movie",
+        "amount": 500.0,
+        "category": "Entertainment",
+        "date": "2026-09-03"
     }
 ]
