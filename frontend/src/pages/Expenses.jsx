@@ -2,6 +2,15 @@ import { useEffect, useState } from "react";
 
 const API_BASE_URL = "http://127.0.0.1:8000";
 
+const getCurrentIndiaDate = () => {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Kolkata",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date());
+};
+
 function Expenses() {
   const [expenses, setExpenses] = useState([]);
   const [filteredExpenses, setFilteredExpenses] = useState([]);
@@ -31,7 +40,7 @@ function Expenses() {
     title: "",
     amount: "",
     category: "",
-    date: "",
+    date: getCurrentIndiaDate(),
   });
 
   const token = sessionStorage.getItem("access_token");
@@ -91,6 +100,15 @@ function Expenses() {
     }
 
     if (
+      value.includes("entertainment") ||
+      value.includes("movie") ||
+      value.includes("cinema") ||
+      value.includes("gaming")
+    ) {
+      return "🎬";
+    }
+
+    if (
       value.includes("bill") ||
       value.includes("utility")
     ) {
@@ -138,6 +156,15 @@ function Expenses() {
       value.includes("shop")
     ) {
       return "shopping";
+    }
+
+    if (
+      value.includes("entertainment") ||
+      value.includes("movie") ||
+      value.includes("cinema") ||
+      value.includes("gaming")
+    ) {
+      return "entertainment";
     }
 
     if (
@@ -376,7 +403,7 @@ function Expenses() {
       title: "",
       amount: "",
       category: "",
-      date: "",
+      date: getCurrentIndiaDate(),
     });
   };
 
@@ -956,7 +983,7 @@ function Expenses() {
 
                   <input
                     type="text"
-                    placeholder="e.g. Food"
+                    placeholder="e.g. Food or Entertainment"
                     value={formData.category}
                     onChange={(e) =>
                       setFormData({
@@ -1093,6 +1120,7 @@ function Expenses() {
 
                   <input
                     type="text"
+                    placeholder="e.g. Food or Entertainment"
                     value={formData.category}
                     onChange={(e) =>
                       setFormData({

@@ -2045,6 +2045,10 @@ a {
   background: #fff7df;
 }
 
+.expense-category.entertainment {
+  background: #f3e8ff;
+}
+
 .expense-info {
   flex: 1;
   min-width: 0;
@@ -2992,6 +2996,10 @@ a {
 
 .expense-icon.education {
   background: #fff7df;
+}
+
+.expense-icon.entertainment {
+  background: #f3e8ff;
 }
 
 .expense-details {

@@ -3,6 +3,15 @@ import { useNavigate } from "react-router-dom";
 
 const API_BASE_URL = "http://127.0.0.1:8000";
 
+const getCurrentIndiaDate = () => {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Kolkata",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date());
+};
+
 function Dashboard() {
   const navigate = useNavigate();
 
@@ -20,13 +29,12 @@ function Dashboard() {
   const [showAddExpense, setShowAddExpense] = useState(false);
   const [addingExpense, setAddingExpense] = useState(false);
 
-  const [form, setForm] = useState({
-    title: "",
-    amount: "",
-    category: "",
-    date: new Date().toISOString().split("T")[0],
-  });
-
+ const [form, setForm] = useState({
+   title: "",
+   amount: "",
+   category: "",
+   date: getCurrentIndiaDate(),
+ });
   const currentYear = new Date().getFullYear();
 
   const months = [
@@ -304,14 +312,23 @@ function Dashboard() {
     }
 
     if (
-      normalizedCategory.includes("education") ||
-      normalizedCategory.includes("study")
-    ) {
-      return "📚";
-    }
+  normalizedCategory.includes("education") ||
+  normalizedCategory.includes("study")
+) {
+  return "📚";
+}
 
-    return "₹";
-  };
+if (
+  normalizedCategory.includes("entertainment") ||
+  normalizedCategory.includes("movie") ||
+  normalizedCategory.includes("cinema") ||
+  normalizedCategory.includes("gaming")
+) {
+  return "🎬";
+}
+
+return "₹";
+};
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
@@ -372,14 +389,12 @@ function Dashboard() {
         );
       }
 
-      setForm({
-        title: "",
-        amount: "",
-        category: "",
-        date: new Date()
-          .toISOString()
-          .split("T")[0],
-      });
+     setForm({
+       title: "",
+       amount: "",
+       category: "",
+       date: getCurrentIndiaDate(),
+     });
 
       setShowAddExpense(false);
 
@@ -1000,6 +1015,10 @@ function Dashboard() {
 
                     <option value="Education">
                       Education
+                    </option>
+
+                    <option value="Entertainment">
+                      Entertainment
                     </option>
 
                     <option value="Other">
