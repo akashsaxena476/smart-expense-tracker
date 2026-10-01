@@ -1,6 +1,6 @@
-# Smart Expense Tracker API
+# Smart Expense Tracker
 
-A REST API built with FastAPI to manage personal expenses. The project uses PostgreSQL for data storage and provides JWT-based authentication, authorization, and endpoints to add, view, filter, calculate, update, and delete expenses.
+A full-stack expense management application built with React, FastAPI, and PostgreSQL. The application provides JWT-based authentication, user-based authorization, expense management, filtering, summaries, statistics, and a responsive dashboard.
 
 ## Features
 
@@ -8,6 +8,7 @@ A REST API built with FastAPI to manage personal expenses. The project uses Post
 - JWT-based authentication
 - Password hashing and validation
 - User-based authorization
+- Multi-user expense management
 - Add a new expense
 - View all expenses
 - View an expense by ID
@@ -19,32 +20,102 @@ A REST API built with FastAPI to manage personal expenses. The project uses Post
 - Monthly expense summary
 - Filter expenses by date range
 - Expense statistics
-- Multi-user expense management
+- Interactive dashboard
+- Recent expenses
+- Responsive frontend
+- PostgreSQL database
+- Docker and Docker Compose support
 
 ## Tech Stack
+
+### Frontend
+
+- React
+- React Router
+- Vite
+- JavaScript
+- CSS
+
+### Backend
 
 - Python 3.11+
 - FastAPI
 - Uvicorn
 - Pydantic
-- PostgreSQL
 - SQLAlchemy
 - PyJWT
 - Pwdlib
+
+### Database
+
+- PostgreSQL
+
+### Testing
+
 - Pytest
+
+### DevOps
+
 - Docker
 - Docker Compose
+- Nginx
 
-## Install Dependencies
+## Project Structure
 
-### Option 1: Using a virtual environment (Recommended)
+```text
+smart-expense-tracker/
+│
+├── frontend/
+│   ├── src/
+│   ├── public/
+│   ├── Dockerfile
+│   ├── nginx.conf
+│   ├── package.json
+│   └── package-lock.json
+│
+├── src/
+│   ├── app.py
+│   ├── api.py
+│   ├── auth.py
+│   ├── schemas.py
+│   └── auth_schemas.py
+│
+├── database/
+│   ├── connection.py
+│   ├── models.py
+│   ├── operations.py
+│   ├── user_models.py
+│   └── user_operations.py
+│
+├── security/
+│   ├── password.py
+│   └── jwt.py
+│
+├── storage/
+│   └── expense_storage.py
+│
+├── tests/
+│   └── test_expense_api.py
+│
+├── Dockerfile
+├── docker-compose.yml
+├── requirements.txt
+├── create_tables.py
+├── .env
+└── README.md
+```
+
+## Installation
+
+### Backend
+
+Create a virtual environment.
 
 #### Windows
 
 ```bash
 python -m venv .venv
 .venv\Scripts\activate
-pip install -r requirements.txt
 ```
 
 #### macOS / Linux
@@ -52,13 +123,26 @@ pip install -r requirements.txt
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
 ```
 
-### Option 2: Without a virtual environment
+Install the backend dependencies:
 
 ```bash
 pip install -r requirements.txt
+```
+
+### Frontend
+
+Open the frontend directory:
+
+```bash
+cd frontend
+```
+
+Install the frontend dependencies:
+
+```bash
+npm install
 ```
 
 ## Environment Variables
@@ -74,119 +158,169 @@ JWT_SECRET_KEY=your_secret_key
 
 Do not commit the `.env` file to GitHub.
 
-## Run with Docker (Recommended)
+## Run the Application Without Docker
 
-Make sure Docker Desktop is installed and running.
+To run the application without Docker, PostgreSQL must be running locally and the required environment variables must be configured.
 
-```bash
-docker compose up --build
-```
+### Start the Backend
 
-This starts both:
-
-- FastAPI application
-- PostgreSQL database
-
-The API will be available at:
-
-```text
-http://127.0.0.1:8000
-```
-
-Swagger Documentation:
-
-```text
-http://127.0.0.1:8000/docs
-```
-
-To stop the containers:
-
-```bash
-docker compose down
-```
-
-## Run the Server Without Docker
-
-If you want to run the application locally, make sure PostgreSQL is running and the required environment variables are configured.
+From the project root:
 
 ```bash
 uvicorn src.app:app --reload
 ```
 
-The API will be available at:
+The backend will be available at:
 
 ```text
 http://127.0.0.1:8000
 ```
 
-Swagger Documentation:
+Swagger API documentation:
 
 ```text
 http://127.0.0.1:8000/docs
 ```
 
-## Authentication
+### Start the Frontend
 
-The API uses JWT-based authentication.
+Open another terminal and move to the frontend directory:
 
-### Register
-
-```text
-POST /auth/register
+```bash
+cd frontend
 ```
 
-### Login
+Start the Vite development server:
 
-```text
-POST /auth/login
+```bash
+npm run dev
 ```
 
-After login, use the returned JWT access token as a Bearer token to access protected expense endpoints.
-
-## Expense Endpoints
+The frontend will be available at:
 
 ```text
-POST   /expenses
-GET    /expenses
-GET    /expenses/{expense_id}
-PUT    /expenses/{expense_id}
-DELETE /expenses/{expense_id}
-
-GET    /expenses/filter
-GET    /expenses/total
-GET    /expenses/total/{category}
-GET    /expenses/monthly-summary
-GET    /expenses/date-range
-GET    /expenses/statistics
+http://localhost:5173
 ```
 
-## Database
+## Run the Application with Docker
 
-The project uses PostgreSQL with SQLAlchemy ORM.
+Docker is the recommended way to run the complete application because it starts the frontend, backend, and PostgreSQL database together.
 
-The database contains:
+Make sure Docker Desktop is installed and running.
 
-- `users` table
-- `expenses` table
+From the project root, run:
 
-Each expense is associated with its owner using `user_id`.
+```bash
+docker compose up -d --build
+```
 
-Users can only access and manage their own expenses.
+This starts:
+
+- React frontend
+- FastAPI backend
+- PostgreSQL database
+
+Check the running containers:
+
+```bash
+docker compose ps
+```
+
+The frontend will be available at:
+
+```text
+http://localhost:5173
+```
+
+The backend will be available at:
+
+```text
+http://localhost:8000
+```
+
+Swagger API documentation:
+
+```text
+http://localhost:8000/docs
+```
+
+### View Application Logs
+
+```bash
+docker compose logs -f
+```
+
+### Stop the Application
+
+```bash
+docker compose down
+```
+
+### Start Again Without Rebuilding
+
+```bash
+docker compose up -d
+```
+
+### Rebuild the Containers
+
+If any code, dependency, or Docker configuration changes are made:
+
+```bash
+docker compose up -d --build
+```
 
 ## Testing
 
 The project includes automated tests using Pytest.
 
-Run the tests with:
+Run the tests from the project root:
 
 ```bash
 pytest
 ```
 
-All current tests are passing.
+The tests cover the expense API functionality and authorization behavior.
 
-## Docker
+## Docker Services
 
-Docker Compose runs the FastAPI application and PostgreSQL database together.
+Docker Compose runs the following services.
 
-PostgreSQL data is stored using a Docker volume for persistence.
+### Frontend
+
+React application served using Nginx.
+
+```text
+http://localhost:5173
+```
+
+### Backend
+
+FastAPI application.
+
+```text
+http://localhost:8000
+```
+
+### Database
+
+PostgreSQL database running inside Docker.
+
+The PostgreSQL data is stored using a Docker volume so that database data is preserved when containers are restarted.
+
+## Application URLs
+
+| Service | URL |
+|---|---|
+| Frontend | http://localhost:5173 |
+| Backend | http://localhost:8000 |
+| Swagger Documentation | http://localhost:8000/docs |
+
+## Author
+
+**Akash Saxena**
+
+B.Tech Computer Science Engineering with specialization in AI & ML
+
+GitHub:  
+https://github.com/akashsaxena476

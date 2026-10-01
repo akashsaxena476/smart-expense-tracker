@@ -78,7 +78,12 @@ def login_user(user: UserLogin):
 
     return {
         "access_token": access_token,
-        "token_type": "bearer"
+        "token_type": "bearer",
+        "user": {
+            "id": existing_user.id,
+            "username": existing_user.username,
+            "email": existing_user.email
+        }
     }
 
 
